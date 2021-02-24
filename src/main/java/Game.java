@@ -11,7 +11,8 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    Hero hero = new Hero(10, 10);
+    Position position = new Position(10, 10);
+    Hero hero = new Hero(position);
     public Game(){
         try {
             TerminalSize terminalSize = new TerminalSize(100, 50);
@@ -55,16 +56,16 @@ public class Game {
         System.out.println(key);
         switch(key.getKeyType()){
             case ArrowUp:
-                hero.moveUp();
+                moveHero(hero.moveUp());
                 break;
             case ArrowDown:
-                hero.moveDown();
+                moveHero(hero.moveDown());
                 break;
             case ArrowRight:
-                hero.moveRight();
+                moveHero(hero.moveRight());
                 break;
             case ArrowLeft:
-                hero.moveLeft();
+                moveHero(hero.moveLeft());
                 break;
             case Character:
                 if (key.getCharacter() == 'q'){
@@ -76,6 +77,10 @@ public class Game {
                 break;
         }
         return 0;
+    }
+
+    private void moveHero(Position position) {
+        hero.setPosition(position);
     }
 
 }
