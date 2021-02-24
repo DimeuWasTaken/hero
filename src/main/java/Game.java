@@ -13,11 +13,11 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    Arena arena = new Arena(100, 100);
+    Arena arena = new Arena(100, 20);
     TextGraphics graphics;
     public Game(){
         try {
-            TerminalSize terminalSize = new TerminalSize(100, 50);
+            TerminalSize terminalSize = new TerminalSize(100, 20);
             DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
             Terminal terminal = terminalFactory.createTerminal();
             screen = new TerminalScreen(terminal);
