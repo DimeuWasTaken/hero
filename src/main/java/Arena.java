@@ -8,17 +8,20 @@ import com.googlecode.lanterna.screen.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arena {
     private int width;
     private int height;
     private List<Wall> walls;
+    private List<Coin> coins;
 
 
     public Arena(int w, int h){
         this.width = w;
         this.height = h;
         this.walls = createWalls();
+        this.coins = createCoins();
     }
     public int getWidth(){
         return this.width;
@@ -59,6 +62,7 @@ public class Arena {
             default:
                 break;
         }
+        retrieveCoins();
         return 0;
     }
 
@@ -83,6 +87,8 @@ public class Arena {
         hero.draw(graphics);
         for (Wall wall : walls)
             wall.draw(graphics);
+        for (Coin coin : coins)
+            coin.draw(graphics);
     }
 
     private int getHeroX() {
@@ -105,6 +111,39 @@ public class Arena {
         }
 
         return walls;
+    }
+
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++){
+            Coin coin = new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1);
+
+            while (true){
+                if (isValidPosition(coin, coins))
+                    break;
+            }
+            coins.add(coin);
+        }
+        return coins;
+    }
+
+    private void retrieveCoins() {
+        for (int i = 0; i < this.coins.size(); i++){
+            if (this.coins.get(i).position.equals(hero.getPosition())){
+                System.out.println("coin removed");
+                this.coins.remove(i);
+                break;
+            }
+        }
+    }
+
+    private boolean isValidPosition(Coin coin, ArrayList<Coin> coins){
+        for (int i = 0; i < coins.size(); i++){
+            if (coin.position.equals(coins.get(i).position))
+                return false;
+        }
+        return !(coin.position.equals(hero.getPosition()));
     }
 
 }
